@@ -5,6 +5,7 @@ const customTheme = {
         global: {
             body: {
                 font: ['Montserrat', 'sans-serif'],
+                fontSize: '14px',
             }
         }
     },
@@ -17,6 +18,7 @@ const customTheme = {
         dark_gray: '#707070',
         green_logo: '#EBF7F3',
         app_background: '#FAFAFA',
+        cool_blue: '#4299FF'
     },
 };
 

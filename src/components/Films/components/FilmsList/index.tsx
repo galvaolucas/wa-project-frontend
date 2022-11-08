@@ -100,7 +100,7 @@ export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit
                       width: '6px',
                     },
                     '&::-webkit-scrollbar-thumb': {
-                      background: 'var(--chakra-colors-green)',
+                      background: 'var(--chakra-colors-cool_blue)',
                       borderRadius: '24px',
                     },
                   }}

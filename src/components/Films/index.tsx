@@ -21,7 +21,7 @@ export function Films () {
                 getAndShowMovies()
             }
         })
-    }, [update])
+    }, [skip])
 
     async function getAndShowMovies () {
         if (apiFilms.length > 0) {
@@ -75,8 +75,18 @@ export function Films () {
         }
     }
 
-    async function deleteFilmsFromDatabase () {
+    async function deleteAllFilmsFromDatabase () {
+        try {
+            await api.delete('/films');
+            clearData();
+        } catch (err) {
+            console.log('erro', err)
+        }
+    }
 
+    function clearData () {
+        setApiFilms([]);
+        setDataFilms([]);
     }
     
     return (
@@ -86,17 +96,20 @@ export function Films () {
                     <Text fontSize='2xl' fontWeight="500" color='black'>Listagem de Filmes</Text>
                 </Box>
                 <Box w="100%" h="100%">
-                    <Flex w="100%" flexDir="row" align="center" justify="end">
+                    <Flex w="100%" flexDir="row" align="center" justify="end" mr={5}>
                         <Button
-                            bgColor="green_logo"
+                            bgColor="var(--chakra-colors-cool_blue)"
+                            color='white'
                             borderRadius={5}
                             boxShadow="0px 3px 3px rgba(0, 0, 0, 0.3)"
                             border="2px solid green_logo"
                             _hover={{
-                                transform: "scale(1.02)",
+                                transform: "scale(1.05)",
                             }}
-                            onClick={() => {
-
+                            onClick={async () => {
+                                await deleteAllFilmsFromDatabase();
+                                await getAndShowMovies();
+                                await getFilmsFromApi(skip, limit);
                             }}
                         >
                             Atualizar
