@@ -1,13 +1,15 @@
-import { Avatar, Box, Flex, TableContainer } from "@chakra-ui/react";
+import { Avatar, Box, Flex, TableContainer, Tag, Tooltip } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
 import { Table } from 'react-chakra-pagination';
-import 'react-toastify/dist/ReactToastify.css';
 import { IFilmListProps } from "./dtos";
+import Loading from "../Loading";
+import React from "react";
 
 export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit }: IFilmListProps) {
     const [page, setPage] = useState(1);
-    const [paginatedData, setPaginatedData] = useState<Array<{}>>([])
+    const [paginatedData, setPaginatedData] = useState<Array<{}>>([]);
+    const [loading, setLoading] = useState(false); 
+
     let initialArray = Array(skip).fill({});
 
     const onPageChange = async (page: number) => {
@@ -17,25 +19,15 @@ export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit
 
     useEffect(() => {
         setPaginatedData(initialArray.concat(tableData))
+        if (films.length === 0) setLoading(false);
+        else {
+            setLoading(true)
+        };  
     }, [films])
-
-    console.log({skip})
 
     useEffect(() => {
         getFilmsFromApi(skip, limit);
     }, [page])
-
-    const toastSuccessMessage = (message: string) => {
-        toast.success(`${message}`, {
-            position: toast.POSITION.TOP_RIGHT
-        });
-    }
-  
-    const toastErrorMessage = (message: string) => {
-        toast.error(`${message}`, {
-            position: toast.POSITION.TOP_RIGHT
-        });
-    }
 
     const tableData = films && films.map((film) => ({
         banner: (
@@ -45,17 +37,25 @@ export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit
         ),
         title: film.title,
         description: (
-            <Box
-                css={{
-                    'maxWidth':'35rem',
-                    'white-space':'nowrap',
-                    'overflow':'hidden',
-                    'text-overflow':'ellipsis',
-                }}
+            <Tooltip
+              label={film.description}
+              color="black"
+              textAlign='justify'
+              boxShadow="0px 3px 3px rgba(0, 0, 0, 0.3)"
+              backgroundColor='var(--chakra-colors-light_gray)'
             >
-                {film.description}
-            </Box>
-        ),
+                <Box 
+                    css={{
+                            'maxWidth':'35rem',
+                            'white-space':'nowrap',
+                            'overflow':'hidden',
+                            'text-overflow':'ellipsis',
+                        }}
+                    >
+                    {film.description}
+                    </Box>
+            </Tooltip>
+        ),      
         director: film.director,
         producer: film.producer,
     }))
@@ -112,17 +112,26 @@ export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit
                     <TableContainer
                         width='100%'
                     >
-                        <Table 
-                            colorScheme="twitter"
-                            totalRegisters={total}
-                            page={page}
-                            onPageChange={(page) => onPageChange(page)}
-                            columns={tableColumns}
-                            data={paginatedData}
-                        />
+                        {
+                            loading ?
+                            <Table
+                                colorScheme="twitter"
+                                totalRegisters={total}
+                                page={page}
+                                onPageChange={(page) => onPageChange(page)}
+                                columns={tableColumns}
+                                data={paginatedData}
+                            />
+                        : 
+                        <Flex align="center" justify="center" mt={200}>
+                            <Loading 
+                                type='spin'
+                                color='var(--chakra-colors-cool_blue)'
+                            />
+                        </Flex>
+                    }
                     </TableContainer>
                 </Flex>
-                <ToastContainer />
             </Flex>
         </>
     )

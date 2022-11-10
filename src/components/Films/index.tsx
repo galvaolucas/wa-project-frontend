@@ -10,18 +10,17 @@ export function Films () {
     const [apiFilms, setApiFilms] = useState<IFilm[]>([]);
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(10);
-    const [total, setTotal] = useState(0); 
-    const [update, setUpdate] = useState(false);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         getFilmsFromApi(skip, limit).then((response) => {
             if (response === true) {
                 return
             } else {
-                getAndShowMovies()
+                getAndShowMovies();
             }
         })
-    }, [skip])
+    }, [dataFilms])
 
     async function getAndShowMovies () {
         if (apiFilms.length > 0) {
@@ -32,6 +31,7 @@ export function Films () {
             dataFilms.map( async (film: IFilm) => {
                 await postFilmsToAPI(film);
             })
+            await getFilmsFromApi(skip, limit);
         } 
     }
 
@@ -88,16 +88,17 @@ export function Films () {
         setApiFilms([]);
         setDataFilms([]);
     }
-    
+
     return (
         <Flex flexDir="column" w="100vw" h="100vh" >
             <Flex flexDir='column' p={5}>
-                <Box w="100%">
-                    <Text fontSize='2xl' fontWeight="500" color='black'>Listagem de Filmes</Text>
-                </Box>
+                <Flex w="100%" align="center" justify="center">
+                    <Text fontSize='2xl' fontWeight="500" color='black'>Listagem de Filmes - WA Project</Text>
+                </Flex>
                 <Box w="100%" h="100%">
-                    <Flex w="100%" flexDir="row" align="center" justify="end" mr={5}>
+                    <Flex w="100%" align="center" justify="flex-end">
                         <Button
+                            mr={5}
                             bgColor="var(--chakra-colors-cool_blue)"
                             color='white'
                             borderRadius={5}
@@ -112,7 +113,7 @@ export function Films () {
                                 await getFilmsFromApi(skip, limit);
                             }}
                         >
-                            Atualizar
+                            Atualizar Listagem
                         </Button>
                     </Flex>
                     <Flex
