@@ -1,13 +1,17 @@
-# Rome.u app frontend
-
-## Available Scripts
+# WA Project - Frontend
 
 In the project directory, you can run:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- It Runs the app in the development mode. Open http://localhost:3000 to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- The project was created with React using Typescript.
+
+- For the stylesheets, Chakra UI was used.
+
+- It shows the movies saved in https://ghibliapi.herokuapp.com/films, and present them paginated in 10 by 10.
+
+- Clicking on 'Atualizar Listagem', it will drop the API database, make a new consult in the films endpoint, and save them again in the database.
+
+
