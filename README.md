@@ -12,6 +12,6 @@ In the project directory, you can run:
 
 - It shows the movies saved in https://ghibliapi.herokuapp.com/films, and present them paginated in 10 by 10.
 
-- Clicking on 'Atualizar Listagem', it will drop the API database, make a new consult in the films endpoint, and save them again in the database.
+- Clicking on 'Atualizar Listagem', it will drop the API database, make a new consult in the films endpoint, and save them again in the database. This was done using state management with React Hooks.
 
 

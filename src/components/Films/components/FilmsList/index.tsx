@@ -57,7 +57,26 @@ export function FilmsList ({ films, total, getFilmsFromApi, skip, setSkip, limit
             </Tooltip>
         ),      
         director: film.director,
-        producer: film.producer,
+        producer: (
+            <Tooltip
+              label={film.producer}
+              color="black"
+              textAlign='justify'
+              boxShadow="0px 3px 3px rgba(0, 0, 0, 0.3)"
+              backgroundColor='var(--chakra-colors-light_gray)'
+            >
+                <Box 
+                    css={{
+                            'maxWidth':'9rem',
+                            'white-space':'nowrap',
+                            'overflow':'hidden',
+                            'text-overflow':'ellipsis',
+                        }}
+                    >
+                    {film.producer}
+                    </Box>
+            </Tooltip>
+        ),
     }))
 
     const tableColumns = [
